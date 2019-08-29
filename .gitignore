@@ -14,3 +14,7 @@ bin
 
 # IDE configs
 .vscode
+
+# other stuff
+.cnab
+*-packr.go
