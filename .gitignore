@@ -18,3 +18,5 @@ bin
 # other stuff
 .cnab
 *-packr.go
+build/git_askpass.sh
+
