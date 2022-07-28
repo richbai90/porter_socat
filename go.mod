@@ -1,8 +1,9 @@
-module github.com/getporter/skeletor
+module github.com/getporter/socat
 
 go 1.17
 
 replace (
+	get.porter.sh/porter => ../porter
 	// These are replace directives copied from porter
 	// When you use a newer version of Porter, if you run into trouble with go mod tidy
 	// Copy any additional replace directives from Porter's go.mod file
@@ -33,8 +34,8 @@ require (
 	github.com/carolynvs/magex v0.8.0 // indirect
 	github.com/cbroglie/mustache v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
-	github.com/cnabio/cnab-go v0.23.3 // indirect
-	github.com/cyberphone/json-canonicalization v0.0.0-20210303052042-6bc126869bf4 // indirect
+	github.com/cnabio/cnab-go v0.23.4 // indirect
+	github.com/cyberphone/json-canonicalization v0.0.0-20220216171627-b6721b06b4ef // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dsnet/compress v0.0.1 // indirect
 	github.com/fatih/color v1.9.0 // indirect
@@ -101,7 +102,7 @@ require (
 	go.uber.org/zap v1.17.0 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
+	golang.org/x/sys v0.0.0-20220412211240-33da011f77ad // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/genproto v0.0.0-20220314164441-57ef72a4c106 // indirect

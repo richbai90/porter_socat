@@ -1,4 +1,4 @@
-package skeletor
+package socat
 
 import (
 	_ "embed"

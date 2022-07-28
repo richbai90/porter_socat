@@ -1,4 +1,4 @@
-package skeletor
+package socat
 
 import (
 	"get.porter.sh/porter/pkg/portercontext"

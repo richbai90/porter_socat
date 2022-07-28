@@ -1,8 +1,7 @@
-package skeletor
+package socat
 
 import (
-	"get.porter.sh/porter/pkg/exec/builder"
-	yaml "gopkg.in/yaml.v2"
+	"fmt"
 )
 
 // BuildInput represents stdin passed to the mixin for the build command.
@@ -10,13 +9,12 @@ type BuildInput struct {
 	Config MixinConfig
 }
 
-// MixinConfig represents configuration that can be set on the skeletor mixin in porter.yaml
+// MixinConfig represents configuration that can be set on the socat mixin in porter.yaml
 // mixins:
-// - skeletor:
+// - socat:
 //	  clientVersion: "v0.0.0"
 
 type MixinConfig struct {
-	ClientVersion string `yaml:"clientVersion,omitempty"`
 }
 
 // This is an example. Replace the following with whatever steps are needed to
@@ -35,24 +33,7 @@ type MixinConfig struct {
 // for an invocation image using this mixin
 func (m *Mixin) Build() error {
 
-	// Create new Builder.
-	var input BuildInput
-
-	err := builder.LoadAction(m.Context, "", func(contents []byte) (interface{}, error) {
-		err := yaml.Unmarshal(contents, &input)
-		return &input, err
-	})
-	if err != nil {
-		return err
-	}
-
-	suppliedClientVersion := input.Config.ClientVersion
-
-	if suppliedClientVersion != "" {
-		m.ClientVersion = suppliedClientVersion
-	}
-
-	//fmt.Fprintf(m.Out, dockerfileLines)
+	fmt.Fprintf(m.Out, "RUN apt-get update && apt-get install socat -y")
 
 	// Example of pulling and defining a client version for your mixin
 	// fmt.Fprintf(m.Out, "\nRUN curl https://get.helm.sh/helm-%s-linux-amd64.tar.gz --output helm3.tar.gz", m.ClientVersion)
