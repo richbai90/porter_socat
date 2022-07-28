@@ -2,8 +2,6 @@ package socat
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/getporter/socat/pkg/socat/socatfs"
 )
 
