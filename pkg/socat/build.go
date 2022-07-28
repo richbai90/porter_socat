@@ -40,6 +40,7 @@ func (m *Mixin) Build() error {
 	fmt.Fprintf(m.Out, "RUN apt-get update && apt-get install socat -y\n")
 	fmt.Fprintf(m.Out, `RUN echo $'%s' > /usr/bin/porter_socat && `, socatfs.PorterSocat)
 	fmt.Fprint(m.Out, `chmod +x /usr/bin/porter_socat
+	SHELL ["/bin/sh", "-c"]
 	`)
 	// Example of pulling and defining a client version for your mixin
 	// fmt.Fprintf(m.Out, "\nRUN curl https://get.helm.sh/helm-%s-linux-amd64.tar.gz --output helm3.tar.gz", m.ClientVersion)
