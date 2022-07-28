@@ -35,11 +35,12 @@ type MixinConfig struct {
 // Build will generate the necessary Dockerfile lines
 // for an invocation image using this mixin
 func (m *Mixin) Build() error {
-	repl := strings.NewReplacer(`\n`, `\\n\\\n`)
-	fmt.Fprintf(m.Out, `SHELL ["/bin/bash", "-c"]\n`)
+	fmt.Fprintf(m.Out, `SHELL ["/bin/bash", "-c"]
+	`)
 	fmt.Fprintf(m.Out, "RUN apt-get update && apt-get install socat -y\n")
-	fmt.Fprintf(m.Out, `RUN echo $'%s' > /usr/bin/porter_socat && `, repl.Replace(socatfs.PorterSocat))
-	fmt.Fprint(m.Out, `chmod +x /usr/bin/porter_socat`)
+	fmt.Fprintf(m.Out, `RUN echo $'%s' > /usr/bin/porter_socat && `, socatfs.PorterSocat)
+	fmt.Fprint(m.Out, `chmod +x /usr/bin/porter_socat
+	`)
 	// Example of pulling and defining a client version for your mixin
 	// fmt.Fprintf(m.Out, "\nRUN curl https://get.helm.sh/helm-%s-linux-amd64.tar.gz --output helm3.tar.gz", m.ClientVersion)
 
