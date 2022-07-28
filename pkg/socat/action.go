@@ -95,18 +95,22 @@ var _ builder.HasOrderedArguments = Instruction{}
 var _ builder.ExecutableStep = Instruction{}
 var _ builder.StepWithOutputs = Instruction{}
 
+type Address struct {
+	Connection string   `yaml:"connection,omitempty"`
+	Options    []string `yaml:"options,omitempty"`
+}
+
 type Instruction struct {
-	Name              string        `yaml:"name"`
-	Description       string        `yaml:"description"`
-	WorkingDir        string        `yaml:"dir,omitempty"`
-	LeftAddress       string        `yaml:"leftAddress"`
-	RightAddress      string        `yaml:"rightAddress"`
-	Options           []string      `yaml:"options"`
-	builder.AsyncStep `yaml:"asyncStep"`
+	Name              string         `yaml:"name"`
+	Description       string         `yaml:"description"`
+	WorkingDir        string         `yaml:"dir,omitempty"`
+	LeftAddress       Address        `yaml:"leftAddress"`
+	RightAddress      Address        `yaml:"rightAddress"`
+	SocatOptions      []string       `yaml:"socatOptions"`
 }
 
 func (s Instruction) GetCommand() string {
-	return "socat"
+	return "porter_socat"
 }
 
 func (s Instruction) GetWorkingDir() string {
@@ -114,14 +118,14 @@ func (s Instruction) GetWorkingDir() string {
 }
 
 func (s Instruction) GetArguments() []string {
-	return s.Options
+	return []string{
+		s.LeftAddress.String(),
+		s.RightAddress.String(),
+	}
 }
 
 func (s Instruction) GetSuffixArguments() []string {
-	return []string{
-		s.LeftAddress,
-		s.RightAddress,
-	}
+	return s.SocatOptions
 }
 
 func (s Instruction) GetFlags() builder.Flags {
@@ -138,4 +142,17 @@ func (s Instruction) GetOutputs() []builder.Output {
 
 func (s Instruction) Async() bool {
 	return true
+}
+
+func (a Address) String() string {
+	str := a.Connection
+	if len(a.Options) > 0 {
+		str += a.Options[0]
+	}
+
+	for i := 1; i < len(a.Options); i++ {
+		str += "," + a.Options[i]
+	}
+
+	return str
 }
