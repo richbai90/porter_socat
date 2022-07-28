@@ -1,0 +1,16 @@
+#! /usr/local/env bash
+shift
+addr1=$0
+shift
+addr2=$1
+shift
+declare -a OPTIONS
+i=0
+while (( "$#" )); do
+    OPTIONS[$i]={}
+    shift
+done
+
+socat ${OPTIONS[*]} $addr1 $addr2 &
+
+exit 0
