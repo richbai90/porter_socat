@@ -1,4 +1,4 @@
-#! /usr/local/env bash \n\
+#! /usr/bin/env bash \n\
 shift \n\
 addr1=$0 \n\
 shift \n\

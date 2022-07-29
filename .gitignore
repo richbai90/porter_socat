@@ -20,3 +20,4 @@ bin
 *-packr.go
 build/git_askpass.sh
 .vscode
+testbundle

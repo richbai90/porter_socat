@@ -1,34 +1,38 @@
 package socat
 
-import (
-	"io/ioutil"
-	"testing"
+import "testing"
 
-	"get.porter.sh/porter/pkg/exec/builder"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-	yaml "gopkg.in/yaml.v2"
-)
-
-func TestMixin_UnmarshalStep(t *testing.T) {
-	b, err := ioutil.ReadFile("testdata/step-input.yaml")
-	require.NoError(t, err)
-
-	var action Action
-	err = yaml.Unmarshal(b, &action)
-	require.NoError(t, err)
-	assert.Equal(t, "install", action.Name)
-	require.Len(t, action.Steps, 1)
-
-	step := action.Steps[0]
-	assert.Equal(t, "Summon Minion", step.Description)
-	assert.NotEmpty(t, step.Outputs)
-	assert.Equal(t, Output{Name: "VICTORY", JsonPath: "$Id"}, step.Outputs[0])
-
-	require.Len(t, step.Arguments, 1)
-	assert.Equal(t, "man-e-faces", step.Arguments[0])
-
-	require.Len(t, step.Flags, 1)
-	assert.Equal(t, builder.NewFlag("species", "human"), step.Flags[0])
+func TestAddress_String(t *testing.T) {
+	type fields struct {
+		Address string
+		Options []string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		{
+			name: "Simple Test",
+			fields: fields{
+				Address: "UNIX-CONNECT:/tmp/foo",
+				Options: []string{
+					"fork",
+					"reuseaddr",
+				},
+			},
+			want: "UNIX-CONNECT:/tmp/foo,fork,reuseaddr",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			a := Address{
+				Address: tt.fields.Address,
+				Options: tt.fields.Options,
+			}
+			if got := a.String(); got != tt.want {
+				t.Errorf("Address.String() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

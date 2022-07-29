@@ -1,6 +1,9 @@
 package socat
 
 import (
+	"fmt"
+	"os"
+
 	"get.porter.sh/porter/pkg/exec/builder"
 )
 
@@ -96,7 +99,7 @@ var _ builder.ExecutableStep = Instruction{}
 var _ builder.StepWithOutputs = Instruction{}
 
 type Address struct {
-	Connection string   `yaml:"connection,omitempty"`
+	Address string   `yaml:"address,omitempty"`
 	Options    []string `yaml:"options,omitempty"`
 }
 
@@ -145,14 +148,14 @@ func (s Instruction) Async() bool {
 }
 
 func (a Address) String() string {
-	str := a.Connection
+	str := a.Address
 	if len(a.Options) > 0 {
-		str += a.Options[0]
+		str += "," + a.Options[0]
 	}
 
 	for i := 1; i < len(a.Options); i++ {
 		str += "," + a.Options[i]
 	}
-
+	fmt.Fprintf(os.Stderr, str)
 	return str
 }
